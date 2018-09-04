@@ -105,7 +105,6 @@
    * - `cache-version`      (String|Number) Optional version number, change this when offline files change. UpUp will download and cache all content-url and assets files again
    * - `service-worker-url` (String)  The url to the service worker file (`upup.sw.min.js`)
    *                                  Allows loading `upup.min.js` from a CDN while `upup.sw.min.js` stays local (see [scope](https://github.com/TalAter/UpUp/blob/master/docs/README.md#scope))
-   * - `registration-options` (Object) An object containing registration options for ServiceWorkerContainer.register().
    *
    * # API Reference
    */
@@ -126,8 +125,7 @@
 
   // Settings live here, and these are their defaults
   var _settings = {
-    'service-worker-url': 'upup.sw.min.js',
-    'registration-options': {scope: './'}
+    'service-worker-url': 'upup.sw.min.js'
   };
 
   var _debugState = false;
@@ -158,7 +156,7 @@
       this.addSettings(settings);
 
       // register the service worker
-      _serviceWorker.register(_settings['service-worker-url'], _settings['registration-options']).then(function(registration) {
+      _serviceWorker.register(_settings['service-worker-url'], {scope: './'}).then(function(registration) {
         // Registration was successful
         if (_debugState) {
           console.log('Service worker registration successful with scope: %c'+registration.scope, _debugStyle);
@@ -205,7 +203,7 @@
       }
 
       // add new settings to our settings object
-      ['content', 'content-url', 'assets', 'service-worker-url', 'cache-version', 'registration-options'].forEach(function(settingName) {
+      ['content', 'content-url', 'assets', 'service-worker-url', 'cache-version'].forEach(function(settingName) {
         if (settings[settingName] !== undefined) {
           _settings[settingName] = settings[settingName];
         }
